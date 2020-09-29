@@ -16,7 +16,7 @@ if (script.startsWith(`test`)) {
     args.shift() || `.`,
     ...(script === `test:watch` ? [`--watch`] : []),
   ];
-  spawnSync(process.execPath, nodeArgs, { stdio: 'inherit', cwd });
+  spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
 }
 
 if (script.startsWith(`lint`)) {

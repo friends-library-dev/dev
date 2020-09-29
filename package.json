@@ -12,7 +12,12 @@
     "fldev": "./src/dev.js"
   },
   "scripts": {
-    "foo": "bar"
+    "test": "true",
+    "ts:check": "true",
+    "lint": "eslint --rule '@typescript-eslint/explicit-function-return-type: off' .",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier '**/*.{js,ts,json}' --write",
+    "format:check": "prettier '**/*.{js,ts,json}' --check"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.2.0",
