@@ -1,12 +1,7 @@
 module.exports = {
   parser: `@typescript-eslint/parser`,
   plugins: [`@typescript-eslint`, `no-only-tests`],
-  extends: [
-    `plugin:@typescript-eslint/recommended`,
-    `prettier`,
-    `prettier/@typescript-eslint`,
-    `plugin:prettier/recommended`,
-  ],
+  extends: [`plugin:@typescript-eslint/recommended`, `prettier`],
   rules: {
     'no-var': `off`,
     'default-case': `off`,
