@@ -5,16 +5,11 @@ const path = require(`path`);
 const fs = require(`fs`);
 
 const NODE_MODULES = path.resolve(__dirname, `..`, `node_modules`);
-
-process.on(`unhandledRejection`, (err) => {
-  throw err;
-});
-
+const cwd = process.cwd();
 const args = process.argv.slice(2);
 const script = args.shift();
 
 if (script.startsWith(`test`)) {
-  const cwd = process.cwd();
   ensureJestConfig(cwd);
   const nodeArgs = [
     `${NODE_MODULES}/.bin/jest`,
@@ -22,6 +17,32 @@ if (script.startsWith(`test`)) {
     ...(script === `test:watch` ? [`--watch`] : []),
   ];
   spawnSync(process.execPath, nodeArgs, { stdio: 'inherit', cwd });
+}
+
+if (script.startsWith(`lint`)) {
+  const nodeArgs = [
+    `${NODE_MODULES}/.bin/eslint`,
+    `--config`,
+    `${__dirname}/../.eslintrc.js`,
+    `**/*.{ts,tsx,js}`,
+    ...(script === `lint:fix` ? [`--fix`] : []),
+  ];
+  spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
+}
+
+if (script.startsWith(`format`)) {
+  const nodeArgs = [
+    `${NODE_MODULES}/.bin/prettier`,
+    `--config`,
+    `${__dirname}/../.prettierrc.json`,
+    `**/*.{ts,tsx,js,css,yml}`,
+    args.includes(`--check`) ? `--check` : `--write`,
+  ];
+  spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
+}
+
+if (script === `ts:check`) {
+  spawnSync(`${NODE_MODULES}/.bin/tsc`, [`--noEmit`, `-p`, `.`], { stdio: `inherit` });
 }
 
 /**
