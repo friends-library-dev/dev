@@ -70,7 +70,6 @@ if (
  * @returns {never}
  */
 function exec(bin, args = []) {
-  console.log(args);
   const { status } = spawnSync(`${localModules}/.bin/${bin}`, args, {
     stdio: `inherit`,
     cwd,
