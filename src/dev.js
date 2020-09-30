@@ -34,7 +34,7 @@ if (command.startsWith(`format`)) {
     `--config`,
     `${__dirname}/../.prettierrc.json`,
     `--ignore-path`,
-    `${cwd}/.gitignore`,
+    prettierIgnorePath(),
     `**/*.{ts,tsx,js,css,yml}`,
     argv.includes(`--check`) ? `--check` : `--write`,
   ]);
@@ -70,6 +70,7 @@ if (
  * @returns {never}
  */
 function exec(bin, args = []) {
+  console.log(args);
   const { status } = spawnSync(`${localModules}/.bin/${bin}`, args, {
     stdio: `inherit`,
     cwd,
@@ -107,4 +108,19 @@ function resolveNodeModulesPath() {
   }
   // this takes over if we're `npm link`-ed during dev
   return path.resolve(__dirname, `..`, `node_modules`);
+}
+
+/**
+ * @returns {string}
+ */
+function prettierIgnorePath() {
+  if (!fs.existsSync(`${cwd}/.prettierignore`)) {
+    return `${cwd}/.gitignore`;
+  }
+  // merge the .gitignore and the .prettierignore
+  const generated = `${__dirname}/../.generated.prettierignore`;
+  const gitIgnore = fs.readFileSync(`${cwd}/.gitignore`, `utf8`);
+  const prettierIgnore = fs.readFileSync(`${cwd}/.prettierignore`, `utf8`);
+  fs.writeFileSync(generated, `${gitIgnore}\n${prettierIgnore}`);
+  return generated;
 }
