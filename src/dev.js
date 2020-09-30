@@ -7,30 +7,30 @@ const fs = require(`fs`);
 const localModules = resolveNodeModulesPath();
 const cwd = process.cwd();
 const args = process.argv.slice(2);
-const script = args.shift();
+const command = args.shift();
 
-if (script.startsWith(`test`)) {
+if (command.startsWith(`test`)) {
   ensureJestConfig(cwd);
   const nodeArgs = [
     `${localModules}/.bin/jest`,
     args.shift() || `.`,
-    ...(script === `test:watch` ? [`--watch`] : []),
+    ...(command === `test:watch` ? [`--watch`] : []),
   ];
   spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
 }
 
-if (script.startsWith(`lint`)) {
+if (command.startsWith(`lint`)) {
   const nodeArgs = [
     `${localModules}/.bin/eslint`,
     `--config`,
     `${__dirname}/../.eslintrc.js`,
     `**/*.{ts,tsx,js}`,
-    ...(script === `lint:fix` ? [`--fix`] : []),
+    ...(command === `lint:fix` ? [`--fix`] : []),
   ];
   spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
 }
 
-if (script.startsWith(`format`)) {
+if (command.startsWith(`format`)) {
   const nodeArgs = [
     `${localModules}/.bin/prettier`,
     `--config`,
@@ -41,11 +41,30 @@ if (script.startsWith(`format`)) {
   spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
 }
 
-if (script === `ts:check`) {
+if (command === `ts:compile`) {
+  spawnSync(`${localModules}/.bin/tsc`, [...args], { stdio: `inherit`, cwd });
+}
+
+if (command === `ts:check`) {
   spawnSync(`${localModules}/.bin/tsc`, [`--noEmit`, `-p`, cwd], {
     stdio: `inherit`,
     cwd,
   });
+}
+
+if (
+  ![
+    `ts:check`,
+    `ts:compile`,
+    `test`,
+    `test:watch`,
+    `lint`,
+    `lint:fix`,
+    `format`,
+  ].includes(command)
+) {
+  console.error(`\x1b[31mUnknown command: ${command}\x1b[0m`);
+  process.exit(1);
 }
 
 /**
