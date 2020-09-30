@@ -11,6 +11,9 @@
   "bin": {
     "fldev": "./src/dev.js"
   },
+  "files": [
+    "./src/dev.js"
+  ],
   "scripts": {
     "test": "true",
     "ts:check": "true",
