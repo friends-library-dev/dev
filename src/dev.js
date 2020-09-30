@@ -6,50 +6,46 @@ const fs = require(`fs`);
 
 const localModules = resolveNodeModulesPath();
 const cwd = process.cwd();
-const args = process.argv.slice(2);
-const command = args.shift();
+const argv = process.argv.slice(2);
+const command = argv.shift();
 
 if (command.startsWith(`test`)) {
   ensureJestConfig(cwd);
-  const nodeArgs = [
-    `${localModules}/.bin/jest`,
-    args.shift() || `.`,
-    ...(command === `test:watch` ? [`--watch`] : []),
-  ];
-  spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
+  exec(`jest`, [argv.shift() || `.`, ...(command === `test:watch` ? [`--watch`] : [])]);
 }
 
 if (command.startsWith(`lint`)) {
-  const nodeArgs = [
-    `${localModules}/.bin/eslint`,
+  exec(`eslint`, [
     `--config`,
     `${__dirname}/../.eslintrc.js`,
+    `--ignore-pattern`,
+    `**/dist/**`,
+    `--ignore-pattern`,
+    `**/public/**`,
+    `--ignore-pattern`,
+    `**/build/**`,
     `**/*.{ts,tsx,js}`,
     ...(command === `lint:fix` ? [`--fix`] : []),
-  ];
-  spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
+  ]);
 }
 
 if (command.startsWith(`format`)) {
-  const nodeArgs = [
-    `${localModules}/.bin/prettier`,
+  exec(`prettier`, [
     `--config`,
     `${__dirname}/../.prettierrc.json`,
+    `--ignore-path`,
+    `${cwd}/.gitignore`,
     `**/*.{ts,tsx,js,css,yml}`,
-    args.includes(`--check`) ? `--check` : `--write`,
-  ];
-  spawnSync(process.execPath, nodeArgs, { stdio: `inherit`, cwd });
+    argv.includes(`--check`) ? `--check` : `--write`,
+  ]);
 }
 
 if (command === `ts:compile`) {
-  spawnSync(`${localModules}/.bin/tsc`, [...args], { stdio: `inherit`, cwd });
+  exec(`tsc`, [...argv]);
 }
 
 if (command === `ts:check`) {
-  spawnSync(`${localModules}/.bin/tsc`, [`--noEmit`, `-p`, cwd], {
-    stdio: `inherit`,
-    cwd,
-  });
+  exec(`tsc`, [`--noEmit`, `-p`, cwd]);
 }
 
 if (
@@ -65,6 +61,20 @@ if (
 ) {
   console.error(`\x1b[31mUnknown command: ${command}\x1b[0m`);
   process.exit(1);
+}
+
+/**
+ *
+ * @param {string} bin
+ * @param {string[]} args
+ * @returns {never}
+ */
+function exec(bin, args = []) {
+  const { status } = spawnSync(`${localModules}/.bin/${bin}`, args, {
+    stdio: `inherit`,
+    cwd,
+  });
+  process.exit(status === null ? 1 : status);
 }
 
 /**
