@@ -14,6 +14,10 @@ if (command.startsWith(`test`)) {
   exec(`jest`, [argv.shift() || `.`, ...(command === `test:watch` ? [`--watch`] : [])]);
 }
 
+if (command === `tsnode`) {
+  exec(`ts-node`, argv);
+}
+
 if (command.startsWith(`lint`)) {
   exec(`eslint`, [
     `--config`,
@@ -57,6 +61,7 @@ if (
     `lint`,
     `lint:fix`,
     `format`,
+    `tsnode`,
   ].includes(command)
 ) {
   console.error(`\x1b[31mUnknown command: ${command}\x1b[0m`);
