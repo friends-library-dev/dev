@@ -30,3 +30,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: bump
+        run: |
+          git config --local user.email "{{ secrets.GIT_EMAIL }}"
+          git config --local user.name "{{ secrets.GIT_NAME }}"
+          git stash
+          git checkout master
+          git pull origin master
+          git add package.json package-lock.json
+          git commit -m "bump version $( jq -r .version package.json )"
+      - name: push-bump
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ github.token }}
