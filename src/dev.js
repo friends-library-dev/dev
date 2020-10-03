@@ -99,6 +99,7 @@ if (command === `publish`) {
   exec.out(`git commit -am "v${newVersion}"`);
   exec.out(`git tag v${newVersion}`);
   exec.out(`git push origin master`);
+  exec.out(`git push origin tag v${newVersion}`);
 }
 
 if (
