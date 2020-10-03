@@ -19,7 +19,7 @@
     "format": "prettier '**/*.{js,ts,json}' --write",
     "format:check": "prettier '**/*.{js,ts,json}' --check",
     "ci": "npm run test && npm run lint && npm run format:check && npm run ts:check",
-    "publish": "./src/dev.js publish"
+    "self-publish": "./src/dev.js publish"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.2.0",
