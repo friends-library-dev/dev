@@ -4,6 +4,7 @@ const { spawnSync } = require(`child_process`);
 const path = require(`path`);
 const fs = require(`fs`);
 const exec = require(`x-exec`).default;
+const { red } = require(`x-chalk`);
 
 const localModules = resolveNodeModulesPath();
 const cwd = process.cwd();
@@ -60,9 +61,50 @@ if (command === `ci`) {
   process.exit(0);
 }
 
+if (command === `publish`) {
+  const type = argv.shift();
+  const isMaster =
+    exec.exit(`git rev-parse --symbolic-full-name --abbrev-ref HEAD`, cwd) === `master\n`;
+
+  if (!isMaster) {
+    red(`publish only allowed on <master>`);
+    process.exit(1);
+  }
+
+  if (![`major`, `minor`, `patch`].includes(type)) {
+    red(`Invalid version type [patch | minor | major]`);
+    process.exit(1);
+  }
+
+  if (!exec.success(`git diff-index --quiet HEAD --`, cwd)) {
+    red(`Git status not clean`);
+    process.exit(1);
+  }
+
+  const ci = cwd === path.resolve(__dirname, `..`) ? `npm run ci` : `npx fldev ci`;
+  if (!exec.out(ci, cwd)) {
+    process.exit(1);
+  }
+
+  if (!exec.out(`npm version --git-tag-version=false ${type}`)) {
+    process.exit(1);
+  }
+
+  if (!exec.out(`npm publish`)) {
+    process.exit(1);
+  }
+
+  const newVersion = exec.exit(`jq -r .version package.json`, cwd).trim();
+  exec.out(`git add .`, cwd);
+  exec.out(`git commit -am "v${newVersion}"`);
+  exec.out(`git tag v${newVersion}`);
+  exec.out(`git push origin master`);
+}
+
 if (
   ![
     `ci`,
+    `publish`,
     `ts:check`,
     `ts:compile`,
     `test`,
@@ -73,7 +115,7 @@ if (
     `tsnode`,
   ].includes(command)
 ) {
-  console.error(`\x1b[31mUnknown command: ${command}\x1b[0m`);
+  red(`Unknown command: ${command}`);
   process.exit(1);
 }
 
