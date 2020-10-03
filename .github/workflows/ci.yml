@@ -3,8 +3,8 @@ name: basic-ci
 on: push
 
 jobs:
-  ci:
-    name: run
+  test:
+    name: test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,3 +17,16 @@ jobs:
         run: npm run test
       - name: prettier
         run: npm run format -- --check
+
+  npm-publish:
+    name: npm-publish
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1
+      - name: merge-release
+        uses: mikeal/merge-release@master
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
