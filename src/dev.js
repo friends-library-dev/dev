@@ -17,7 +17,7 @@ if (command.startsWith(`test`)) {
 }
 
 if (command === `tsnode`) {
-  spawn(`ts-node`, argv);
+  spawn(`ts-node`, [`--transpile-only`, ...argv]);
 }
 
 if (command.startsWith(`lint`)) {
