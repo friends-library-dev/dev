@@ -1,10 +1,23 @@
 module.exports = {
   parser: `@typescript-eslint/parser`,
-  plugins: [`@typescript-eslint`, `no-only-tests`],
-  extends: [`plugin:@typescript-eslint/recommended`, `prettier`],
+  plugins: [`@typescript-eslint`, `react`, `no-only-tests`],
+  extends: [
+    `plugin:@typescript-eslint/recommended`,
+    `prettier`,
+    `react-app`,
+    `plugin:react-hooks/recommended`,
+  ],
+  ignorePatterns: [
+    `**/dist/*`,
+    `**/public/*`,
+    `**/.cache/*`,
+    `**/storybook-static/*`,
+    `**/build/*`,
+  ],
   rules: {
     'no-var': `off`,
     'default-case': `off`,
+    'react/no-unescaped-entities': `off`,
     'no-only-tests/no-only-tests': `error`,
     'no-useless-constructor': `off`,
     '@typescript-eslint/no-namespace': `off`,
@@ -55,6 +68,11 @@ module.exports = {
       },
     },
   ],
+  settings: {
+    react: {
+      version: `999.999.999`,
+    },
+  },
   parserOptions: {
     ecmaVersion: 2018,
     ecmaFeatures: { jsx: true },
