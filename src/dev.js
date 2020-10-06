@@ -124,7 +124,7 @@ if (
 function spawn(bin, args = []) {
   const binPath = `${localModules}/.bin/${bin}`;
   if (!fs.existsSync(binPath)) {
-    red(`missing bin ${binPath}, maybe try \`npm install\`?`);
+    red(`missing bin ${binPath} - maybe try \`npm install\`?`);
     process.exit(1);
   }
 
