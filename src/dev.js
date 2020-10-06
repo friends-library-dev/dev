@@ -24,12 +24,7 @@ if (command.startsWith(`lint`)) {
   spawn(`eslint`, [
     `--config`,
     `${__dirname}/../.eslintrc.js`,
-    `--ignore-pattern`,
-    `**/dist/**`,
-    `--ignore-pattern`,
-    `**/public/**`,
-    `--ignore-pattern`,
-    `**/build/**`,
+    ...argv,
     `**/*.{ts,tsx,js}`,
     ...(command === `lint:fix` ? [`--fix`] : []),
   ]);
@@ -127,6 +122,12 @@ if (
  * @returns {never}
  */
 function spawn(bin, args = []) {
+  const binPath = `${localModules}/.bin/${bin}`;
+  if (!fs.existsSync(binPath)) {
+    red(`missing bin ${binPath} - maybe try \`npm install\`?`);
+    process.exit(1);
+  }
+
   const { status } = spawnSync(`${localModules}/.bin/${bin}`, args, {
     stdio: `inherit`,
     cwd,
