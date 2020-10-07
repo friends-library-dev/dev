@@ -124,14 +124,6 @@ module.exports = {
       },
     ],
     'no-unused-labels': `error`,
-    'no-use-before-define': [
-      `error`,
-      {
-        functions: false,
-        classes: false,
-        variables: false,
-      },
-    ],
     'no-useless-computed-key': `error`,
     'no-useless-concat': `error`,
     'no-useless-escape': `error`,
@@ -223,6 +215,8 @@ module.exports = {
       files: [`*.js`],
       rules: {
         '@typescript-eslint/no-var-requires': `off`,
+        '@typescript-eslint/explicit-module-boundary-types': `off`,
+        '@typescript-eslint/explicit-function-return-type': `off`,
       },
     },
     {
