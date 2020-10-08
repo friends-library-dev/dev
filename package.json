@@ -22,6 +22,7 @@
     "self-publish": "./src/dev.js publish"
   },
   "dependencies": {
+    "@types/jest": "^26.0.14",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "eslint": "^7.9.0",
