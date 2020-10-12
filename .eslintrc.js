@@ -45,7 +45,6 @@ module.exports = {
         allowTypedFunctionExpressions: true,
       },
     ],
-    'no-promise-executor-return': `error`,
     'no-unreachable-loop': `error`,
     'no-useless-backreference': `error`,
     'require-atomic-updates': `error`,
@@ -80,7 +79,6 @@ module.exports = {
     'no-label-var': `error`,
     'no-labels': [`error`, { allowLoop: true, allowSwitch: false }],
     'no-lone-blocks': `error`,
-    'no-loop-func': `error`,
     'no-mixed-operators': [
       `error`,
       {
