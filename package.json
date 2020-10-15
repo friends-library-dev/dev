@@ -18,6 +18,7 @@
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier '**/*.{js,ts,json}' --write",
     "format:check": "prettier '**/*.{js,ts,json}' --check",
+    "compile": "true",
     "ci": "npm run test && npm run lint && npm run format:check && npm run ts:check",
     "self-publish": "./src/dev.js publish"
   },
