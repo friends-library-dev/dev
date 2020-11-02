@@ -13,7 +13,10 @@ const command = argv.shift();
 
 if (command.startsWith(`test`)) {
   ensureJestConfig(cwd);
-  spawn(`jest`, [argv.shift() || `.`, ...(command === `test:watch` ? [`--watch`, `--runInBand`] : [])]);
+  spawn(`jest`, [
+    argv.shift() || `.`,
+    ...(command === `test:watch` ? [`--watch`, `--runInBand`] : []),
+  ]);
 }
 
 if (command === `tsnode`) {
