@@ -53,7 +53,11 @@ if (command === `ts:check`) {
 }
 
 if (command === `ci`) {
-  for (const cmd of [`test`, `lint`, `format -- --check`, `ts:check`]) {
+  const cmds = [`lint`, `format -- --check`, `ts:check`, `test`];
+  if (argv.includes(`--skip-test`) || argv.includes(`-t`)) {
+    cmds.pop();
+  }
+  for (const cmd of cmds) {
     exec.out(`npm run ${cmd}`, cwd) || process.exit(1);
   }
   process.exit(0);
