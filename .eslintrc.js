@@ -18,6 +18,7 @@ module.exports = {
   ],
   rules: {
     'no-var': `off`,
+    'prefer-const': [`error`, { destructuring: `all` }],
     'default-case': `off`,
     'no-only-tests/no-only-tests': `error`,
     'no-useless-constructor': `off`,

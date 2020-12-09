@@ -165,7 +165,7 @@ function ensureJestConfig(cwd) {
  * @returns {string}
  */
 function resolveNodeModulesPath() {
-  let nmPath = path.resolve(__dirname, `..`, `..`, `..`);
+  const nmPath = path.resolve(__dirname, `..`, `..`, `..`);
   // happy path, this is installed as a normal npm module
   if (nmPath.endsWith(`node_modules`)) {
     return nmPath;
