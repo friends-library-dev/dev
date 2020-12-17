@@ -98,7 +98,7 @@ if (command === `publish`) {
 
   const newVersion = exec.exit(`jq -r .version package.json`, cwd).trim();
   exec.out(`git add .`, cwd);
-  exec.out(`git commit -am "v${newVersion}"`);
+  exec.out(`git commit -am v${newVersion}`);
   exec.out(`git tag v${newVersion}`);
   exec.out(`git push origin master`);
   exec.out(`git push origin tag v${newVersion}`);
