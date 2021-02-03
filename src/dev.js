@@ -92,7 +92,7 @@ if (command === `publish`) {
     process.exit(1);
   }
 
-  if (!exec.out(`npm publish`)) {
+  if (!exec.out(`npm publish --access public`)) {
     process.exit(1);
   }
 
