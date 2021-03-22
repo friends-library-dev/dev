@@ -27,6 +27,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': `off`,
     '@typescript-eslint/no-useless-constructor': `error`,
     '@typescript-eslint/no-explicit-any': `off`,
+    '@typescript-eslint/no-this-alias': `off`,
     '@typescript-eslint/no-angle-bracket-type-assertion': `off`,
     '@typescript-eslint/no-use-before-define': `off`,
     '@typescript-eslint/explicit-module-boundary-types': [
