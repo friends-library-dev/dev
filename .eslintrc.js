@@ -22,6 +22,7 @@ module.exports = {
     'default-case': `off`,
     'no-only-tests/no-only-tests': `error`,
     'no-useless-constructor': `off`,
+    '@typescript-eslint/no-non-null-assertion': `off`,
     '@typescript-eslint/no-namespace': `off`,
     '@typescript-eslint/no-empty-function': `off`,
     '@typescript-eslint/ban-ts-comment': `off`,
@@ -223,7 +224,6 @@ module.exports = {
       files: [`**/__tests__/**`],
       rules: {
         'no-throw-literal': `off`,
-        '@typescript-eslint/no-non-null-assertion': `off`,
         '@typescript-eslint/consistent-type-assertions': `off`,
         '@typescript-eslint/explicit-function-return-type': `off`,
       },
