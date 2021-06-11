@@ -9,7 +9,7 @@ const { red } = require(`x-chalk`);
 const localModules = resolveNodeModulesPath();
 const cwd = process.cwd();
 const argv = process.argv.slice(2);
-const command = argv.shift();
+const command = argv.shift() || ``;
 
 if (command.startsWith(`test`)) {
   ensureJestConfig(cwd);
@@ -64,7 +64,7 @@ if (command === `ci`) {
 }
 
 if (command === `publish`) {
-  const type = argv.shift();
+  const type = argv.shift() || ``;
   const isMaster =
     exec.exit(`git rev-parse --symbolic-full-name --abbrev-ref HEAD`, cwd) === `master\n`;
 
