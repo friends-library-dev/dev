@@ -155,8 +155,8 @@ function ensureJestConfig(cwd) {
   fs.writeFileSync(
     destPath,
     `// auto-generated, do not edit\n${config.replace(
-      `<abs-path-to-ts-jest>`,
-      `${localModules}/ts-jest/dist/`,
+      `<abs-path-to-esbuild-jest>`,
+      `${localModules}/esbuild-jest/`,
     )}`,
   );
 }
