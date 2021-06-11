@@ -1,6 +1,12 @@
 {
   "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
     "allowJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "rootDir": "src/",
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitOverride": true
   }
 }
