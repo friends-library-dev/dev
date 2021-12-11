@@ -3,7 +3,7 @@
 Meta-package for convenient development. Sort of like `react-scripts` for all-purpose
 typescript module development. Includes pre-configured out-of-the-box support for:
 
-- TypeScript (currently `4.1.x`)
+- TypeScript (currently `4.5.x`)
 - Jest (setup with ts-jest)
 - eslint (configured for typescript with opinionated defaults)
 - prettier
@@ -39,3 +39,24 @@ $ npx fldev tsnode ./some-ts-script.ts
 # run `ts:check`, `test`, `lint`, and `format --check`
 $ npx fldev ci
 ```
+
+These scripts are often useful embedded in npm scripts in your `package.json`, like so:
+
+```json
+{
+  "scripts": {
+    "test": "fldev test",
+    "test:watch": "fldev test:watch",
+    "lint": "fldev lint",
+    "lint:fix": "fldev lint:fix",
+    "ts:check": "fldev ts:check",
+    "format": "fldev format",
+    "compile": "fldev ts:compile"
+  }
+}
+```
+
+⚠️ _NOTE:_ This package **does not follow semver.** Instead, it's minor versions track
+with Typescript releases, so `4.5.x` in this library would include `typescript` in the
+`4.5.x` range. For that reason, it is recommend you install it pinning to an exact, or to
+a minor version, like : `"@friends-library/dev": "~4.5.0"`.
